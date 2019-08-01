@@ -94,7 +94,7 @@ module "vault_lb_aws" {
   create             = "${var.create}"
   name               = "${var.name}"
   vpc_id             = "${var.vpc_id}"
-  cidr_blocks        = ["${var.public ? var.public_cidr : var.vpc_cidr}"] # If there's a public IP, open port 22 for public access - DO NOT DO THIS IN PROD
+  cidr_blocks        = ["${var.is_internal_lb ? var.vpc_cidr : var.public_cidr}"]
   subnet_ids         = ["${var.subnet_ids}"]
   is_internal_lb     = "${var.is_internal_lb}"
   use_lb_cert        = "${var.use_lb_cert}"
