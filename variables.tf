@@ -61,11 +61,6 @@ variable "public_cidr" {
   default     = "0.0.0.0/0"
 }
 
-variable "vault_port" {
-  description = "Port on which to run the Vault server."
-  default     = "8200"
-}
-
 variable "count" {
   description = "Number of Vault nodes to provision across private subnets, defaults to private subnet count."
   default     = -1
@@ -98,6 +93,11 @@ variable "ssh_key_name" {
 variable "is_internal_lb" {
   description = "Is an internal load balancer, defaults to true."
   default     = true
+}
+
+variable "lb_subnet_ids" {
+  description = "Subnet ID(s) to provision load balancer in."
+  type        = "list"
 }
 
 variable "use_lb_cert" {

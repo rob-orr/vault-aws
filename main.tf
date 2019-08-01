@@ -37,13 +37,12 @@ data "template_file" "vault_init" {
 }
 
 module "vault_server_sg" {
-  source = "github.com/rob-orr/vault-server-ports-aws"
+  source = "github.com/hashicorp-modules/vault-server-ports-aws"
 
   create      = "${var.create ? 1 : 0}"
   name        = "${var.name}-vault-server"
   vpc_id      = "${var.vpc_id}"
   cidr_blocks = ["${var.public ? var.public_cidr : var.vpc_cidr}"] # If there's a public IP, open Vault ports for public access.
-  vault_port  = "${var.vault_port}"
 }
 
 module "consul_client_sg" {
@@ -95,7 +94,7 @@ module "vault_lb_aws" {
   name               = "${var.name}"
   vpc_id             = "${var.vpc_id}"
   cidr_blocks        = ["${var.is_internal_lb ? var.vpc_cidr : var.public_cidr}"]
-  subnet_ids         = ["${var.subnet_ids}"]
+  subnet_ids         = ["${var.lb_subnet_ids}"]
   is_internal_lb     = "${var.is_internal_lb}"
   use_lb_cert        = "${var.use_lb_cert}"
   lb_cert            = "${var.lb_cert}"
