@@ -95,6 +95,11 @@ variable "ssh_key_name" {
   description = "AWS key name you will use to access the instance(s)."
 }
 
+variable "is_internal_lb" {
+  description = "Is an internal load balancer, defaults to true."
+  default     = true
+}
+
 variable "use_lb_cert" {
   description = "Use certificate passed in for the LB IAM listener, \"lb_cert\" and \"lb_private_key\" must be passed in if true, defaults to false."
   default     = false
