@@ -56,7 +56,7 @@ variable "public" {
   default     = false
 }
 
-variable "public_cidr" {
+variable "public_cidrs" {
   description = "List of CIDRs to use for security group for public instances."
   type        = "list"
   default     = ["0.0.0.0/0"]
