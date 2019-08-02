@@ -42,7 +42,7 @@ module "vault_server_sg" {
   create      = "${var.create ? 1 : 0}"
   name        = "${var.name}-vault-server"
   vpc_id      = "${var.vpc_id}"
-  cidr_blocks = ["${var.public ? var.public_cidr : var.vpc_cidr}"] # If there's a public IP, open Vault ports for public access.
+  cidr_blocks = ["${var.public ? split(",", join(",", var.public_cidr)) : var.vpc_cidr}"] # If there's a public IP, open Vault ports for public access.
 }
 
 module "consul_client_sg" {
@@ -51,7 +51,7 @@ module "consul_client_sg" {
   create      = "${var.create ? 1 : 0}"
   name        = "${var.name}-vault-consul-client"
   vpc_id      = "${var.vpc_id}"
-  cidr_blocks = ["${var.public ? var.public_cidr : var.vpc_cidr}"] # If there's a public IP, open Consul ports for public access.
+  cidr_blocks = ["${var.public ? split(",", join(",", var.public_cidr)) : var.vpc_cidr}"] # If there's a public IP, open Consul ports for public access.
 }
 
 resource "aws_security_group_rule" "ssh" {
@@ -62,7 +62,7 @@ resource "aws_security_group_rule" "ssh" {
   protocol          = "tcp"
   from_port         = 22
   to_port           = 22
-  cidr_blocks       = ["${var.public ? var.public_cidr : var.vpc_cidr}"] # If there's a public IP, open port 22 for public access.
+  cidr_blocks       = ["${var.public ? split(",", join(",", var.public_cidr)) : var.vpc_cidr}"] # If there's a public IP, open port 22 for public access.
 }
 
 resource "aws_launch_configuration" "vault" {
@@ -93,7 +93,7 @@ module "vault_lb_aws" {
   create             = "${var.create}"
   name               = "${var.name}"
   vpc_id             = "${var.vpc_id}"
-  cidr_blocks        = ["${var.is_internal_lb ? var.vpc_cidr : var.public_cidr}"]
+  cidr_blocks        = ["${var.is_internal_lb ? var.vpc_cidr : split(",", join(",", var.public_cidr))}"]
   subnet_ids         = ["${var.lb_subnet_ids}"]
   is_internal_lb     = "${var.is_internal_lb}"
   use_lb_cert        = "${var.use_lb_cert}"
