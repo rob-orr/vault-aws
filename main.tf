@@ -88,7 +88,7 @@ resource "aws_launch_configuration" "vault" {
 }
 
 module "vault_lb_aws" {
-  source = "github.com/hashicorp-modules/vault-lb-aws"
+  source = "github.com/rob-orr/vault-lb-aws"
 
   create             = "${var.create}"
   name               = "${var.name}"
